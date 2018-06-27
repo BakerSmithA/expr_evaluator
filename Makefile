@@ -7,4 +7,4 @@ MAIN = $(SRC)/main.c
 FILES = $(MAIN)
 
 default:
-	gcc $(FILES) -o $(BIN)
+	gcc-7 $(FILES) -o $(BIN)

@@ -68,6 +68,16 @@ ParseResult next(char *tokens) {
     return from_tokens(tokens+1);
 }
 
+ParseResult many(ParseResult acc, ParseResult(*p)(char*)) {
+    while (1) {
+        ParseResult new = then(acc, p);
+        if (new.type == FAIL) {
+            return acc;
+        }
+        acc = new;
+    }
+}
+
 char *append_char(char *szString, size_t strsize, char c) {
     size_t len = strlen(szString);
     if(len+1 < strsize) {
@@ -127,7 +137,15 @@ ParseResult minus(char *tokens) {
 
 ParseResult expr(char *tokens) {
     ParseResult t = term(tokens);
-    return then_try(t, minus, plus);
+
+    ParseResult p(char *ts) {
+        return try(minus, plus, ts);
+    }
+    ParseResult m(char *ts) {
+        return many(t, p);
+    }
+
+    return then(t, m);
 }
 
 void check_fail(ParseResult p) {

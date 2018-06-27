@@ -82,7 +82,6 @@ ParseResult match(char expected, char *tokens) {
     if (*tokens == expected) {
         return next(tokens);
     }
-    printf("Got %c expected %c\n", *tokens, expected);
     return fail("Unexpected");
 }
 

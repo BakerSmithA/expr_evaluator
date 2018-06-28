@@ -14,7 +14,7 @@
 // |-------------|------------|-----------------------------------------------|
 
 // Binary codes for each operation.
-unsigned char _PUSH_CODE = 0x1F; // F so can be anded with the operand.
+unsigned char _PUSH_CODE = 0x1F; // F so can be ANDed with the operand.
 unsigned char _ADD_CODE  = 0x20;
 unsigned char _SUB_CODE  = 0x40;
 

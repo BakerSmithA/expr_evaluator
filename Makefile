@@ -1,9 +1,11 @@
 SRC = src
 OUT = out
 
-BIN = $(OUT)/eval
+COMPILER_BIN = $(OUT)/comp
+COMPILER = $(SRC)/compiler/main.c
 
-MAIN = $(SRC)/main.c
+compiler:
+	gcc -Wall -Wextra $(COMPILER) -o $(COMPILER_BIN)
 
-default:
-	gcc -Wall -Wextra $(MAIN) -o $(BIN)
+clean:
+	rm $(OUT)/*

@@ -6,4 +6,4 @@ BIN = $(OUT)/eval
 MAIN = $(SRC)/main.c
 
 default:
-	gcc -Wall $(MAIN) -o $(BIN)
+	gcc -Wall -Wextra $(MAIN) -o $(BIN)

@@ -10,7 +10,7 @@ void err_expected(char *expected, Token actual) {
     exit(0);
 }
 
-// effect: parses an integer and outputs the integer.
+// effect: parses an integer and appends a push instruction to the bytecode.
 //         Outputs an error if the lookahead is not an integer.
 void term(Bytecode *instrs, Tokens *input) {
     Token t = lookahead(input);
@@ -25,6 +25,7 @@ void term(Bytecode *instrs, Tokens *input) {
     }
 }
 
+// effect: appends either an add or subtract instruction to the bytecode.
 void append_binop(BinOp op, Bytecode *instrs) {
     switch (op) {
         case PLUS:
@@ -36,7 +37,7 @@ void append_binop(BinOp op, Bytecode *instrs) {
     }
 }
 
-// effect: parses a binary operation, and outputs the two operands and operator.
+// effect: parses a binary operation, and pushes the operation to the bytecode.
 //         Outputs an error if parsing fails.
 void expr(Bytecode *instrs, Tokens *input) {
     term(instrs, input);

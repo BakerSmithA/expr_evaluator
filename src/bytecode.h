@@ -25,8 +25,8 @@ typedef struct Instr {
     struct Instr *next;
 } Instr;
 
+// effect: prints the bits of the instruction code.
 void print_instr(Instr instr) {
-    // printf("%x", instr.code);
     for (int i=0; i<8; i++) {
         printf("%d", !!((instr.code << i) & 0x80));
     }

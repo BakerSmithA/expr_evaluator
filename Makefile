@@ -3,8 +3,9 @@ OUT = out
 
 BIN = $(OUT)/eval
 
+LEXER = $(SRC)/lexer.c
 MAIN = $(SRC)/main.c
-FILES = $(MAIN)
+FILES = $(LEXER) $(MAIN)
 
 default:
 	gcc $(FILES) -o $(BIN)

@@ -8,14 +8,13 @@
 // | Instruction | Code       | Description                                   |
 // |-------------|------------|-----------------------------------------------|
 // | Push        | 000 XXXXX  | Push the 5-bit number to the top of the stack |
-// | Add         | 001 -----  | Add the two values at the top of the stack    |
-// | Sub         | 010 -----  | Subtract the value below the top of the stack |
+// | Add         | 001 00000  | Add the two values at the top of the stack    |
+// | Sub         | 010 00000  | Subtract the value below the top of the stack |
 // |             |            | from the element at the top                   |
 // |-------------|------------|-----------------------------------------------|
 
 // Binary codes for each operation.
-// These can be ANDed with operands for the code.
-unsigned char _PUSH_CODE = 0x1F;
+unsigned char _PUSH_CODE = 0x1F; // F so can be anded with the operand.
 unsigned char _ADD_CODE  = 0x20;
 unsigned char _SUB_CODE  = 0x40;
 

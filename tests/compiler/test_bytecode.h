@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string.h>
 #include "../common.h"
 #include "../../src/compiler/bytecode.h"

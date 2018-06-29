@@ -84,6 +84,15 @@ Bytecode* empty() {
     return instrs;
 }
 
+// effect: frees all the nodes in the list, and the reference to the list.
+void free_bytecode(Bytecode *instrs) {
+    for (Instr *instr=instrs->first; instr!=NULL;) {
+        instr = instr->next;
+        free(instr);
+    }
+    free(instrs);
+}
+
 // effect: adds a new instruction to the end of list of instructions.
 void append(char code, Bytecode *instrs) {
     Instr *instr = (Instr*)malloc(sizeof(Instr));

@@ -4,7 +4,7 @@
 
 // effect: creates/opens a file and overwrites the contents with the instructions.
 void write_output(char *filename, Bytecode *instrs) {
-    FILE *fp = fopen(filename, "w");
+    FILE *fp = fopen(filename, "wb");
     write_bytecode(instrs, fp);
     fclose(fp);
 }

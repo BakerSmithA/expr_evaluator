@@ -35,6 +35,7 @@ void print_instr(Instr instr) {
 typedef struct {
     Instr *first;
     Instr *last;
+    int len;
 } Bytecode;
 
 // Useful for iterating through all instructions in bytecode.
@@ -63,15 +64,28 @@ void write_bytecode(Bytecode *instrs, FILE *fp) {
     }
 }
 
+// effect: allocates a string and writes the instruction codes to the string.
+char* to_string(Bytecode *instrs) {
+    char *s = malloc(sizeof(char) * instrs->len + 1);
+    int i=0;
+    Instr *instr;
+    foreach_instr(instr, instrs) {
+        s[i] = instr->code;
+        i++;
+    }
+    s[i] = '\0';
+    return s;
+}
+
 // effect: returns an empty list of bytecode instructions.
 Bytecode* empty() {
     Bytecode *instrs = (Bytecode*)malloc(sizeof(Bytecode));
-    *instrs = (Bytecode){ .first=NULL, .last=NULL };
+    *instrs = (Bytecode){ .first=NULL, .last=NULL, .len=0 };
     return instrs;
 }
 
 // effect: adds a new instruction to the end of list of instructions.
-void _append(char code, Bytecode *instrs) {
+void append(char code, Bytecode *instrs) {
     Instr *instr = (Instr*)malloc(sizeof(Instr));
     *instr = (Instr){ .code=code, .next=NULL };
 
@@ -82,20 +96,21 @@ void _append(char code, Bytecode *instrs) {
         instrs->first = instr;
     }
     instrs->last = instr;
+    instrs->len += 1;
 }
 
 // effect: appends a push instruction to the end of the list of instructions.
 void append_push(int num, Bytecode *instrs) {
     unsigned char code = _PUSH_CODE & ((unsigned char)num);
-    _append(code, instrs);
+    append(code, instrs);
 }
 
 // effect: appends an add instruction to the end of the list of instructions.
 void append_add(Bytecode *instrs) {
-    _append(_ADD_CODE, instrs);
+    append(_ADD_CODE, instrs);
 }
 
 // effect: appends a sub instruction to the end of the list of instructions.
 void append_sub(Bytecode *instrs) {
-    _append(_SUB_CODE, instrs);
+    append(_SUB_CODE, instrs);
 }

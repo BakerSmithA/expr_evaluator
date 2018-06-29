@@ -27,8 +27,8 @@ bool test_append_populated() {
 }
 
 // Runs all bytecode tests.
-void test_bytecode() {
-    context("bytecode");
-    test(test_append_empty(), "append empty");
-    test(test_append_populated(), "append populated");
+void test_bytecode(Ctx ctx) {
+    Ctx bytecode_ctx = nested_ctx("bytecode", ctx);
+    test(test_append_empty(), "append empty", bytecode_ctx);
+    test(test_append_populated(), "append populated", bytecode_ctx);
 }

@@ -4,7 +4,7 @@
 #include "../common.h"
 #include "../../src/compiler/bytecode.h"
 
-// effect: frees the list of instructions.
+// effect: frees the list of str.
 // return: whether the string generated from the instructions matched the supplied string.
 bool eq_bytecode(Bytecode *instrs, char *expected) {
     char *str = to_string(instrs);

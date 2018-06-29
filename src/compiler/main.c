@@ -19,7 +19,10 @@ int main(int argc, char *argv[argc]) {
     char *filename = argv[2];
 
     Bytecode *output = empty();
-    Tokens ts = from_string(input_expr);
-    expr(output, &ts);
+    Tokens *ts = from_string(input_expr);
+    expr(output, ts);
     write_output(filename, output);
+
+    free_bytecode(output);
+    free_tokens(ts);
 }

@@ -54,9 +54,15 @@ Token lookahead(Tokens *input) {
 }
 
 // return: the input initialised with the given input string.
-Tokens from_string(char *cs) {
-    Tokens ts;
-    ts.cs = cs;
-    consume(&ts);
+Tokens *from_string(char *input) {
+    Tokens *ts = (Tokens*)malloc(sizeof(Tokens));
+    ts->cs = input;
+    consume(ts);
     return ts;
+}
+
+// effect: frees the tokens. However, does not free the remaining input string
+//         that was passed to from_string when creating the Tokens.
+void free_tokens(Tokens *tokens) {
+    free(tokens);
 }

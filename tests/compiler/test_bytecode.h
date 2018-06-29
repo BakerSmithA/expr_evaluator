@@ -6,7 +6,7 @@
 
 // effect: frees the list of str.
 // return: whether the string generated from the instructions matched the supplied string.
-bool eq_bytecode(Bytecode *instrs, char *expected) {
+bool eq_bytecode_exp(Bytecode *instrs, char *expected) {
     char *str = to_string(instrs);
     bool eq = strcmp(str, expected) == 0;
     free(str);
@@ -15,24 +15,35 @@ bool eq_bytecode(Bytecode *instrs, char *expected) {
 }
 
 // Tests appending to an empty list.
-bool test_append_empty() {
+bool test_bytecode_append_empty() {
     Bytecode *instrs = empty();
     append('a', instrs);
-    return eq_bytecode(instrs, "a");
+    return eq_bytecode_exp(instrs, "a");
 }
 
 // Tests appending to a populated list.
-bool test_append_populated() {
+bool test_bytecode_append_populated() {
     Bytecode *instrs = empty();
     append('a', instrs);
     append('b', instrs);
     append('c', instrs);
-    return eq_bytecode(instrs, "abc");
+    return eq_bytecode_exp(instrs, "abc");
 }
+
+// Tests two empty lists are equal.
+bool test_bytecode_eq() {
+    return false;
+}
+
+// Tests two popuated lists are equal.
+
+// Tests two lists are not equal if their length is different.
+
+// Tests two lists are different if the contain different instructions.
 
 // Runs all bytecode tests.
 void test_bytecode(Ctx ctx) {
     Ctx bytecode_ctx = nested_ctx("bytecode", ctx);
-    test(test_append_empty(), "append empty", bytecode_ctx);
-    test(test_append_populated(), "append populated", bytecode_ctx);
+    test(test_bytecode_append_empty(), "append empty", bytecode_ctx);
+    test(test_bytecode_append_populated(), "append populated", bytecode_ctx);
 }

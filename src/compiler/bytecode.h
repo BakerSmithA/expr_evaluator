@@ -64,6 +64,20 @@ void write_bytecode(Bytecode *instrs, FILE *fp) {
     }
 }
 
+// return: whether the two lists of contain the same instruction codes.
+bool eq_bytecode(Bytecode *instrs1, Bytecode *instrs2) {
+    if (instrs1->len != instrs2->len) {
+        return false;
+    }
+
+    bool eq = true;
+    for (Instr *i1=instrs1->first, *i2=instrs2->first; i1!=NULL && eq; i1=i1->next, i2=i2->next) {
+        eq = i1->code == i2->code;
+    }
+
+    return eq;
+}
+
 // effect: allocates a string and writes the instruction codes to the string.
 char* to_string(Bytecode *instrs) {
     char *s = malloc(sizeof(char) * instrs->len + 1);

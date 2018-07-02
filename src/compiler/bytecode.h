@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdbool.h>
 #include <stdlib.h>
 
 // Stack machine instructions:
@@ -7,16 +8,18 @@
 // |-------------|------------|-----------------------------------------------|
 // | Instruction | Code       | Description                                   |
 // |-------------|------------|-----------------------------------------------|
-// | Push        | 000 XXXXX  | Push the 5-bit number to the top of the stack |
-// | Add         | 001 00000  | Add the two values at the top of the stack    |
+// | Push        | 000 XXXXX  | Push the 5-bit number to the top of the stack.|
+// | Add         | 001 00000  | Add the two values at the top of the stack.   |
 // | Sub         | 010 00000  | Subtract the value below the top of the stack |
-// |             |            | from the element at the top                   |
+// |             |            | from the element at the top.                  |
+// | Halt        | 011 00000  | Stops the stack machine execution.            |
 // |-------------|------------|-----------------------------------------------|
 
 // Binary codes for each operation.
 unsigned char _PUSH_CODE = 0x1F; // F so can be ANDed with the operand.
 unsigned char _ADD_CODE  = 0x20;
 unsigned char _SUB_CODE  = 0x40;
+unsigned char _HALT_CODE = 0x60;
 
 // A single bytecode instruction.
 typedef struct Instr {
@@ -136,4 +139,9 @@ void append_add(Bytecode *instrs) {
 // effect: appends a sub instruction to the end of the list of instructions.
 void append_sub(Bytecode *instrs) {
     append(_SUB_CODE, instrs);
+}
+
+// effect: appends a halt operation to the end of the list of instructions.
+void append_halt(Bytecode *instrs) {
+    append(_HALT_CODE, instrs);
 }

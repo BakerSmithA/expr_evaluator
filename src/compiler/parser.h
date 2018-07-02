@@ -57,4 +57,5 @@ void expr(Bytecode *instrs, Tokens *input) {
             break;
         }
     }
+    append_halt(instrs);
 }

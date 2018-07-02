@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "stack.h"
+#include "input.h"
+#include "interpreter.h"
 
 int main(int argc, char *argv[argc]) {
     if (argc != 2) {

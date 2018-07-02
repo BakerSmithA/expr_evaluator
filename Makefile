@@ -15,6 +15,10 @@ TEST_COMPILER = $(TESTS)/compiler/test_compiler.c
 SM_MAIN = $(SRC)/stack_machine/main.c
 SM_BIN = $(OUT)/sm
 
+.PHONY : compiler sm
+
+all: compiler sm
+
 compiler:
 	$(CC) $(CFLAGS) $(COMPILER_MAIN) -o $(COMPILER_BIN)
 
@@ -26,8 +30,6 @@ test_compiler:
 	./$(COMPILER_BIN)
 
 test: test_compiler
-
-all: compiler sm
 
 clean:
 	rm $(OUT)/*

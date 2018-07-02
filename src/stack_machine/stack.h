@@ -20,6 +20,16 @@ Stack* empty() {
     return stack;
 }
 
+// effect: frees the stack, and all nodes in the stack.
+void free_stack(Stack *stack) {
+    for (StackNode *n=stack->top; n!=NULL;) {
+        StackNode *old = n;
+        n = n->below;
+        free(old);
+    }
+    free(stack);
+}
+
 // effect: adds a value to the top of the stack.
 void push(int val, Stack *stack) {
     StackNode *node = (StackNode*)malloc(sizeof(StackNode));

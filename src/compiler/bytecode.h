@@ -2,24 +2,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
-
-// Stack machine instructions:
-//
-// |-------------|------------|-----------------------------------------------|
-// | Instruction | Code       | Description                                   |
-// |-------------|------------|-----------------------------------------------|
-// | Push        | 000 XXXXX  | Push the 5-bit number to the top of the stack.|
-// | Add         | 001 00000  | Add the two values at the top of the stack.   |
-// | Sub         | 010 00000  | Subtract the value below the top of the stack |
-// |             |            | from the element at the top.                  |
-// | Halt        | 011 00000  | Stops the stack machine execution.            |
-// |-------------|------------|-----------------------------------------------|
-
-// Binary codes for each operation.
-unsigned char _PUSH_CODE = 0x1F; // F so can be ANDed with the operand.
-unsigned char _ADD_CODE  = 0x20;
-unsigned char _SUB_CODE  = 0x40;
-unsigned char _HALT_CODE = 0x60;
+#include "../common/codes.h"
 
 // A single bytecode instruction.
 typedef struct Instr {
@@ -104,8 +87,9 @@ Bytecode* empty() {
 // effect: frees all the nodes in the list, and the reference to the list.
 void free_bytecode(Bytecode *instrs) {
     for (Instr *instr=instrs->first; instr!=NULL;) {
+        Instr *old = instr;
         instr = instr->next;
-        free(instr);
+        free(old);
     }
     free(instrs);
 }
@@ -126,22 +110,23 @@ void append(char code, Bytecode *instrs) {
 }
 
 // effect: appends a push instruction to the end of the list of instructions.
+//         Then appends the operand in the next byte.
 void append_push(int num, Bytecode *instrs) {
-    unsigned char code = _PUSH_CODE & ((unsigned char)num);
-    append(code, instrs);
+    append(PUSH_CODE, instrs);
+    append((char)num, instrs);
 }
 
 // effect: appends an add instruction to the end of the list of instructions.
 void append_add(Bytecode *instrs) {
-    append(_ADD_CODE, instrs);
+    append(ADD_CODE, instrs);
 }
 
 // effect: appends a sub instruction to the end of the list of instructions.
 void append_sub(Bytecode *instrs) {
-    append(_SUB_CODE, instrs);
+    append(SUB_CODE, instrs);
 }
 
 // effect: appends a halt operation to the end of the list of instructions.
 void append_halt(Bytecode *instrs) {
-    append(_HALT_CODE, instrs);
+    append(HALT_CODE, instrs);
 }

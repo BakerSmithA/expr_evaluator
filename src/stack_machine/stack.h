@@ -60,7 +60,7 @@ int _add(int x, int y) {
 }
 
 int _sub(int x, int y) {
-    return x - y;
+    return y - x;
 }
 
 // effect: adds the top two values on top of the stack and pushes the result.

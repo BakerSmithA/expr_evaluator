@@ -1,2 +1,2 @@
-# expr_evaluator
-Evaluates mathematical expressions by compiling to to byte code for a stack machine.
+# Maths Expression Evaluator
+Evaluates mathematical expressions by compiling to byte code for a stack machine.

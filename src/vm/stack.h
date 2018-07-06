@@ -63,12 +63,30 @@ int _sub(int x, int y) {
     return y - x;
 }
 
+int _mult(int x, int y) {
+    return x * y;
+}
+
+int _div(int x, int y) {
+    return y / x;
+}
+
 // effect: adds the top two values on top of the stack and pushes the result.
-void add(Stack *stack) {
+void stk_add(Stack *stack) {
     bin_op(_add, stack);
 }
 
 // effect: subtracts the value below the top from the top value, and pushes the result.
-void sub(Stack *stack) {
+void stk_sub(Stack *stack) {
     bin_op(_sub, stack);
+}
+
+// effect: multiplies the top two values on top of the stack and pushes the result.
+void stk_mult(Stack *stack) {
+    bin_op(_mult, stack);
+}
+
+// effect: divides the value below the top from the top value, and pushes the result.
+void stk_div(Stack *stack) {
+    bin_op(_div, stack);
 }

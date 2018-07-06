@@ -3,6 +3,19 @@
 #include "../common.h"
 #include "../../src/vm/stack.h"
 
+// Tests applying a binary operation to the top two values on stack.
+bool test_binop(void(op)(Stack*), int op1, int op2, int expected) {
+    Stack *stack = empty();
+
+    push(op1, stack);
+    push(op2, stack);
+    op(stack);
+    int r = pop(stack);
+
+    free_stack(stack);
+    return r == expected;
+}
+
 // Tests pushing then popping a value to the stack.
 bool test_stack_push_pop() {
     Stack *stack = empty();
@@ -16,28 +29,22 @@ bool test_stack_push_pop() {
 
 // Tests adding the top two values on the stack.
 bool test_stack_add() {
-    Stack *stack = empty();
-
-    push(2, stack);
-    push(3, stack);
-    add(stack);
-    int r = pop(stack);
-
-    free_stack(stack);
-    return r == 5;
+    return test_binop(stk_add, 2, 3, 5);
 }
 
 // Tests subtracting the top two values on the stack.
 bool test_stack_sub() {
-    Stack *stack = empty();
+    return test_binop(stk_sub, 5, 3, 2);
+}
 
-    push(5, stack);
-    push(2, stack);
-    sub(stack);
-    int r = pop(stack);
+// Tests multiplying the top two values on the stack.
+bool test_stack_mult() {
+    return test_binop(stk_mult, 2, 3, 6);
+}
 
-    free_stack(stack);
-    return r == 3;
+// Tests dividing the top two values on the stack.
+bool test_stack_div() {
+    return test_binop(stk_div, 8, 2, 4);
 }
 
 // Runs all bytecode tests.
@@ -46,4 +53,6 @@ void test_stack(Ctx ctx) {
     test(test_stack_push_pop(), "push/pop", stack_ctx);
     test(test_stack_add(), "add", stack_ctx);
     test(test_stack_sub(), "sub", stack_ctx);
+    test(test_stack_mult(), "mult", stack_ctx);
+    test(test_stack_div(), "div", stack_ctx);
 }

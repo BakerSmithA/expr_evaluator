@@ -38,14 +38,24 @@ void interpret_push(Interpreter *inter) {
     push(operand, inter->stack);
 }
 
-// effect: interprets an add instruction by adding the pop two values.
+// effect: interprets an add instruction by adding the top two values.
 void interpret_add(Interpreter *inter) {
-    add(inter->stack);
+    stk_add(inter->stack);
 }
 
-// effect: interprets a subtraction instruction by subtracting the pop two values.
+// effect: interprets a subtraction instruction by subtracting the top two values.
 void interpret_sub(Interpreter *inter) {
-    sub(inter->stack);
+    stk_sub(inter->stack);
+}
+
+// effect: interprets a multiply instruction by multiplying the top two values.
+void interpret_mult(Interpreter *inter) {
+    stk_mult(inter->stack);
+}
+
+// effect: interprets a division instruction by dividing the top two values.
+void interpret_div(Interpreter *inter) {
+    stk_div(inter->stack);
 }
 
 // return: the result at the top of the stack after interpreting the bytecode.
@@ -60,6 +70,12 @@ int interpret(Interpreter *inter) {
                 break;
             case SUB_CODE:
                 interpret_sub(inter);
+                break;
+            case MULT_CODE:
+                interpret_mult(inter);
+                break;
+            case DIV_CODE:
+                interpret_div(inter);
                 break;
         }
         inter->instr_ptr += 1;

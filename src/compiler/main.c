@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "parser.h"
+#include "../common/input.h"
 
 // effect: creates/opens a file and overwrites the contents with the instructions.
 void write_output(char *filename, Bytecode *instrs) {
@@ -15,13 +16,17 @@ int main(int argc, char *argv[argc]) {
         return 0;
     }
 
-    char *input_expr = argv[1];
-    char *filename = argv[2];
+    char *input_file = argv[1];
+    char *output_file = argv[2];
+
+    char *input_tokens = read_file(input_file);
 
     Bytecode *output = empty();
-    Tokens *ts = from_string(input_expr);
-    expr(output, ts);
-    write_output(filename, output);
+    Tokens *ts = from_string(input_tokens);
+
+    printf("\n");
+    parse(output, ts);
+    write_output(output_file, output);
 
     free_bytecode(output);
     free_tokens(ts);

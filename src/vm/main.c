@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "input.h"
+#include "../common/input.h"
 #include "interpreter.h"
 
 int main(int argc, char *argv[argc]) {

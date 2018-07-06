@@ -10,6 +10,10 @@ typedef struct {
     Token curr; // Most recently parsed token.
 } Tokens;
 
+void print_tokens(Tokens *tokens) {
+    printf("Tokens<%s>", tokens->cs);
+}
+
 // effect: advances the pointer to the start of character input stream.
 // return: the next character in the character input stream.
 char _next_char(Tokens *input) {

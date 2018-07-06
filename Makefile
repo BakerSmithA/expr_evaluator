@@ -10,26 +10,31 @@ COMPILER_MAIN = $(SRC)/compiler/main.c
 COMPILER_BIN = $(OUT)/comp
 
 TEST_COMPILER = $(TESTS)/compiler/test_compiler.c
+TEST_VM = $(TESTS)/vm/test_vm.c
 
 # Stack Machine
-SM_MAIN = $(SRC)/stack_machine/main.c
-SM_BIN = $(OUT)/sm
+VM_MAIN = $(SRC)/vm/main.c
+VM_BIN = $(OUT)/vm
 
-.PHONY : compiler sm
+.PHONY : compiler vm
 
-all: compiler sm
+all: compiler vm
 
 compiler:
 	$(CC) $(CFLAGS) $(COMPILER_MAIN) -o $(COMPILER_BIN)
 
-sm:
-	$(CC) $(CFLAGS) $(SM_MAIN) -o $(SM_BIN)
+vm:
+	$(CC) $(CFLAGS) $(VM_MAIN) -o $(VM_BIN)
 
 test_compiler:
 	$(CC) $(CFLAGS) $(TEST_COMPILER) -o $(COMPILER_BIN)
 	./$(COMPILER_BIN)
 
-test: test_compiler
+test_vm:
+	$(CC) $(CFLAGS) $(TEST_VM) -o $(VM_BIN)
+	./$(VM_BIN)
+
+test: test_compiler test_vm
 
 clean:
 	rm $(OUT)/*

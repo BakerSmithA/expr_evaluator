@@ -14,11 +14,19 @@
 // | Sub         | 00000010  | Subtract the value below the top of the stack |
 // |             |           | from the element at the top.                  |
 // |-------------|-----------|-----------------------------------------------|
-// | Halt        | 00000011  | Stops the stack machine execution.            |
+// | Add         | 00000011  | Multiply the two values at the top of the     |
+// |             |           | stack.                                        |
+// |-------------|-----------|-----------------------------------------------|
+// | Div         | 00000100  | Divide the value below the top of the stack   |
+// |             |           | from the element at the top.                  |
+// |-------------|-----------|-----------------------------------------------|
+// | Halt        | 00000101  | Stops the stack machine execution.            |
 // |-------------|-----------|-----------------------------------------------|
 
 // Binary codes for each operation.
 #define PUSH_CODE 0x00
 #define ADD_CODE  0x01
 #define SUB_CODE  0x02
-#define HALT_CODE 0x03
+#define MULT_CODE 0x03
+#define DIV_CODE  0x04
+#define HALT_CODE 0x05

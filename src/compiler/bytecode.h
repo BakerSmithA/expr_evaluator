@@ -116,17 +116,7 @@ void append_push(int num, Bytecode *instrs) {
     append((char)num, instrs);
 }
 
-// effect: appends an add instruction to the end of the list of instructions.
-void append_add(Bytecode *instrs) {
-    append(ADD_CODE, instrs);
-}
-
-// effect: appends a sub instruction to the end of the list of instructions.
-void append_sub(Bytecode *instrs) {
-    append(SUB_CODE, instrs);
-}
-
-// effect: appends a halt operation to the end of the list of instructions.
-void append_halt(Bytecode *instrs) {
-    append(HALT_CODE, instrs);
+// effect: appends an instruction to the end of the list of instructions.
+void append_op(char code, Bytecode *instrs) {
+    append(code, instrs);
 }

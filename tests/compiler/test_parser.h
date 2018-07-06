@@ -7,7 +7,7 @@
 bool test_parses_single_num() {
     Bytecode *expected = empty();
     append_push(10, expected);
-    append_halt(expected);
+    append_op(HALT_CODE, expected);
 
     Tokens *ts = from_string("10");
     Bytecode *actual = empty();
@@ -17,13 +17,13 @@ bool test_parses_single_num() {
     return eq_bytecode(actual, expected);
 }
 
-// Tests parsing a single binary operator.
-bool test_single_binary_op() {
+// Tests parsing a single + or - operator.
+bool test_single_binary_low_precedence() {
     Bytecode *expected = empty();
     append_push(7, expected);
     append_push(5, expected);
-    append_add(expected);
-    append_halt(expected);
+    append_op(ADD_CODE, expected);
+    append_op(HALT_CODE, expected);
 
     Tokens *ts = from_string("7+5");
     Bytecode *actual = empty();
@@ -33,17 +33,69 @@ bool test_single_binary_op() {
     return eq_bytecode(actual, expected);
 }
 
-// Tests parsing a multiple binary operators.
-bool test_multiple_binary_op() {
+// Tests parsing a multiple + or - operators.
+bool test_multiple_binary_low_precedence() {
     Bytecode *expected = empty();
     append_push(7, expected);
     append_push(5, expected);
-    append_add(expected);
+    append_op(ADD_CODE, expected);
     append_push(3, expected);
-    append_sub(expected);
-    append_halt(expected);
+    append_op(SUB_CODE, expected);
+    append_op(HALT_CODE, expected);
 
     Tokens *ts = from_string("7+5-3");
+    Bytecode *actual = empty();
+    parse(actual, ts);
+    free_tokens(ts);
+
+    return eq_bytecode(actual, expected);
+}
+
+// Tests parsing single * or / operator.
+bool test_single_binary_high_precedence() {
+    Bytecode *expected = empty();
+    append_push(7, expected);
+    append_push(5, expected);
+    append_op(MULT_CODE, expected);
+    append_op(HALT_CODE, expected);
+
+    Tokens *ts = from_string("7*5");
+    Bytecode *actual = empty();
+    parse(actual, ts);
+    free_tokens(ts);
+
+    return eq_bytecode(actual, expected);
+}
+
+// Tests parsing single * or / operator.
+bool test_multiple_binary_high_precedence() {
+    Bytecode *expected = empty();
+    append_push(7, expected);
+    append_push(5, expected);
+    append_op(MULT_CODE, expected);
+    append_push(3, expected);
+    append_op(DIV_CODE, expected);
+    append_op(HALT_CODE, expected);
+
+    Tokens *ts = from_string("7*5/3");
+    Bytecode *actual = empty();
+    parse(actual, ts);
+    free_tokens(ts);
+
+    return eq_bytecode(actual, expected);
+}
+
+// Tests a mix of precedence operators.
+bool test_parses_mixed_precedence() {
+    Bytecode *expected = empty();
+    append_push(7, expected);
+    append_push(5, expected);
+    append_push(3, expected);
+    append_op(MULT_CODE, expected);
+    append_op(ADD_CODE, expected);
+    append_op(HALT_CODE, expected);
+
+    Tokens *ts = from_string("7+5*3");
     Bytecode *actual = empty();
     parse(actual, ts);
     free_tokens(ts);
@@ -57,11 +109,11 @@ bool test_parses_parens() {
     append_push(1, expected);
     append_push(2, expected);
     append_push(3, expected);
-    append_add(expected);
-    append_add(expected);
-    append_halt(expected);
+    append_op(ADD_CODE, expected);
+    append_op(MULT_CODE, expected);
+    append_op(HALT_CODE, expected);
 
-    Tokens *ts = from_string("(1)+(2+3)");
+    Tokens *ts = from_string("(1)*(2+3)");
     Bytecode *actual = empty();
     parse(actual, ts);
     free_tokens(ts);
@@ -73,7 +125,10 @@ bool test_parses_parens() {
 void test_parser(Ctx ctx) {
     Ctx parser_ctx = nested_ctx("parser", ctx);
     test(test_parses_single_num(), "single num", parser_ctx);
-    test(test_single_binary_op(), "single binary op", parser_ctx);
-    test(test_multiple_binary_op(), "multiple binary op", parser_ctx);
+    test(test_single_binary_low_precedence(), "single + or -", parser_ctx);
+    test(test_multiple_binary_low_precedence(), "multiple + or -", parser_ctx);
+    test(test_single_binary_high_precedence(), "single * or /", parser_ctx);
+    test(test_multiple_binary_high_precedence(), "multiple * or /", parser_ctx);
+    test(test_parses_mixed_precedence(), "mixed precedence", parser_ctx);
     test(test_parses_parens(), "parenthesis", parser_ctx);
 }

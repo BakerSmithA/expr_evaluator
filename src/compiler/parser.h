@@ -63,31 +63,55 @@ void factor(Bytecode *instrs, Tokens *input) {
 
 // effect: appends either an add or subtract instruction to the bytecode.
 void append_binop(BinOp op, Bytecode *instrs) {
+    char code;
     switch (op) {
         case PLUS:
-            append_add(instrs);
+            code = ADD_CODE;
             break;
         case SUB:
-            append_sub(instrs);
+            code = SUB_CODE;
+            break;
+        case MULT:
+            code = MULT_CODE;
+            break;
+        case DIV:
+            code = DIV_CODE;
             break;
     }
+    append_op(code, instrs);
 }
 
-// effect: parses a binary operation, and pushes the operation to the bytecode.
-//         Outputs an error if parsing fails.
-void expr(Bytecode *instrs, Tokens *input) {
+// effect: parses a '*' or '/' operation, and pushes the operation to the
+//         bytecode. Outputs an error if parsing fails.
+void term(Bytecode *instrs, Tokens *input) {
     factor(instrs, input);
 
     while (1) {
         Token t = lookahead(input);
 
-        if (t.type == BIN_OP) {
+        if (t.type == BIN_OP && (t.bin_op == MULT || t.bin_op == DIV)) {
             consume(input);
             factor(instrs, input);
             append_binop(t.bin_op, instrs);
         }
-        else if (t.type == DONE) {
+        else {
             break;
+        }
+    }
+}
+
+// effect: parses a '+' or '-' operation, and pushes the operation to the
+//         bytecode. Outputs an error if parsing fails.
+void expr(Bytecode *instrs, Tokens *input) {
+    term(instrs, input);
+
+    while (1) {
+        Token t = lookahead(input);
+
+        if (t.type == BIN_OP && (t.bin_op == PLUS || t.bin_op == SUB)) {
+            consume(input);
+            term(instrs, input);
+            append_binop(t.bin_op, instrs);
         }
         else {
             break;
@@ -98,5 +122,5 @@ void expr(Bytecode *instrs, Tokens *input) {
 // effect: parses the input and produces bytecode to calculate the result.
 void parse(Bytecode *instrs, Tokens *input) {
     expr(instrs, input);
-    append_halt(instrs);
+    append_op(HALT_CODE, instrs);
 }

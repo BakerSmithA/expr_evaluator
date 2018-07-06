@@ -2,7 +2,7 @@
 
 // The types of binary operations that can be parsed.
 typedef enum {
-    PLUS, SUB
+    PLUS, SUB, MULT, DIV
 } BinOp;
 
 void print_binop(BinOp op) {
@@ -12,6 +12,12 @@ void print_binop(BinOp op) {
             break;
         case SUB:
             printf("-");
+            break;
+        case MULT:
+            printf("*");
+            break;
+        case DIV:
+            printf("/");
             break;
     }
 }

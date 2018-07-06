@@ -37,6 +37,12 @@ void consume(Tokens *input) {
     else if (c == '-') {
         input->curr = bin_op(SUB);
     }
+    else if (c == '*') {
+        input->curr = bin_op(MULT);
+    }
+    else if (c == '/') {
+        input->curr = bin_op(DIV);
+    }
     else if (c == '(') {
         input->curr = open_paren();
     }

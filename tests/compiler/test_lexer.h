@@ -21,6 +21,16 @@ bool test_lex_minus_op() {
     return test_lex_op("-", SUB);
 }
 
+// Tests parsing a multiplication operator.
+bool test_lex_mult_op() {
+    return test_lex_op("*", MULT);
+}
+
+// Tests parsing a division operator.
+bool test_lex_div_op() {
+    return test_lex_op("/", DIV);
+}
+
 // Tests parsing an integer.
 bool test_lex_integer() {
     Tokens *ts = from_string("12");
@@ -59,6 +69,8 @@ void test_lexer(Ctx ctx) {
     Ctx lexer_ctx = nested_ctx("lexer", ctx);
     test(test_lex_plus_op(), "plus", lexer_ctx);
     test(test_lex_minus_op(), "minus", lexer_ctx);
+    test(test_lex_mult_op(), "mult", lexer_ctx);
+    test(test_lex_div_op(), "div", lexer_ctx);
     test(test_lex_integer(), "integer", lexer_ctx);
     test(test_lex_open_paren(), "open paren", lexer_ctx);
     test(test_lex_close_paren(), "close paren", lexer_ctx);

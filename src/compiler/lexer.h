@@ -33,6 +33,12 @@ void consume(Tokens *input) {
     else if (c == '-') {
         input->curr = bin_op(SUB);
     }
+    else if (c == '(') {
+        input->curr = open_paren();
+    }
+    else if (c == ')') {
+        input->curr = close_paren();
+    }
     else if (isdigit(c)) {
         int n = c - '0';
         c = _next_char(input);

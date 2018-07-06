@@ -3,11 +3,36 @@
 
 // effect: prints an error message detailing the expected token and actual
 //         parsed from the input stream. Also exits the program.
-void err_expected(char *expected, Token actual) {
-    printf("Expected %s but got ", expected);
+void err_expected_type(TokenType type, Token actual) {
+    printf("Expected ");
+    print_token_type(type);
+    printf(" but got ");
     print_token(actual);
     printf("\n");
     exit(0);
+}
+
+// effect: prints an error message detailing the expected token and actual
+//         parsed from the input stream. Also exits the program.
+void err_expected_token(Token expected, Token actual) {
+    printf("Expected ");
+    print_token(expected);
+    printf(" but got ");
+    print_token(actual);
+    printf("\n");
+    exit(0);
+}
+
+// effect: asserts that the lookahead token has the same type as the expected
+//         token. If so the next is consumed. Otherwise an error is thrown.
+void expect(Token expected, Tokens *input) {
+    Token next = lookahead(input);
+    if (next.type == expected.type) {
+        consume(input);
+    }
+    else {
+        err_expected_token(expected, next);
+    }
 }
 
 // effect: parses an integer and appends a push instruction to the bytecode.
@@ -20,9 +45,16 @@ void term(Bytecode *instrs, Tokens *input) {
             consume(input);
             break;
         default:
-            err_expected("integer", t);
+            err_expected_type(INT, t);
             break;
     }
+}
+
+// effect: parses an expression in parenthesis, or a number. Appends the
+//         instructions for either to the bytecode.
+//         Outputs an error if the lookahead is incorrect.
+void factor(Bytecode *instrs, Tokens *input) {
+    expect(open_paren(), input);
 }
 
 // effect: appends either an add or subtract instruction to the bytecode.
@@ -53,7 +85,7 @@ void expr(Bytecode *instrs, Tokens *input) {
             break;
         }
         else {
-            err_expected("binary op", t);
+            err_expected_type(BIN_OP, t);
             break;
         }
     }

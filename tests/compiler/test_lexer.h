@@ -29,6 +29,22 @@ bool test_lex_integer() {
     return r;
 }
 
+// Tests parsing an open parenthesis.
+bool test_lex_open_paren() {
+    Tokens *ts = from_string("(");
+    bool r = lookahead(ts).type == OPEN_PAREN;
+    free_tokens(ts);
+    return r;
+}
+
+// Tests parsing a closing parenthesis.
+bool test_lex_close_paren() {
+    Tokens *ts = from_string(")");
+    bool r = lookahead(ts).type == CLOSE_PAREN;
+    free_tokens(ts);
+    return r;
+}
+
 // Tests consume moves onto the next token.
 bool test_lex_consume() {
     Tokens *ts = from_string("1+2");
@@ -44,5 +60,7 @@ void test_lexer(Ctx ctx) {
     test(test_lex_plus_op(), "plus", lexer_ctx);
     test(test_lex_minus_op(), "minus", lexer_ctx);
     test(test_lex_integer(), "integer", lexer_ctx);
+    test(test_lex_open_paren(), "open paren", lexer_ctx);
+    test(test_lex_close_paren(), "close paren", lexer_ctx);
     test(test_lex_consume(), "consume", lexer_ctx);
 }

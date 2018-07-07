@@ -2,91 +2,29 @@
 
 #include <stdlib.h>
 
-// An element in the stack.
-typedef struct StackNode {
-    int val;
-    struct StackNode *below;
-} StackNode;
-
 // Stack of integer values.
-typedef struct {
-    StackNode *top;
-} Stack;
+typedef struct Stack Stack;
 
 // return: an empty stack.
-Stack* empty() {
-    Stack *stack = (Stack*)malloc(sizeof(Stack));
-    *stack = (Stack){ .top=NULL };
-    return stack;
-}
+Stack* empty();
 
 // effect: frees the stack, and all nodes in the stack.
-void free_stack(Stack *stack) {
-    for (StackNode *n=stack->top; n!=NULL;) {
-        StackNode *old = n;
-        n = n->below;
-        free(old);
-    }
-    free(stack);
-}
+void free_stack(Stack *stack);
 
 // effect: adds a value to the top of the stack.
-void push(int val, Stack *stack) {
-    StackNode *node = (StackNode*)malloc(sizeof(StackNode));
-    *node = (StackNode){ .val=val, .below=stack->top };
-
-    stack->top = node;
-}
+void push(int val, Stack *stack);
 
 // effect: removes the value from the top of the stack and returns it.
-int pop(Stack *stack) {
-    int val = stack->top->val;
-    stack->top = stack->top->below;
-    return val;
-}
-
-// effect: takes the top value x and value below the top y and performs the
-//         supplied binary operation ~ s.t. x~y. The result of the binary op
-//         is pushed to the top of the stack.
-void bin_op(int(*op)(int, int), Stack *stack) {
-    int x = pop(stack);
-    int y = pop(stack);
-    int r = op(x, y);
-    push(r, stack);
-}
-
-int _add(int x, int y) {
-    return x + y;
-}
-
-int _sub(int x, int y) {
-    return y - x;
-}
-
-int _mult(int x, int y) {
-    return x * y;
-}
-
-int _div(int x, int y) {
-    return y / x;
-}
+int pop(Stack *stack);
 
 // effect: adds the top two values on top of the stack and pushes the result.
-void stk_add(Stack *stack) {
-    bin_op(_add, stack);
-}
+void stk_add(Stack *stack);
 
 // effect: subtracts the value below the top from the top value, and pushes the result.
-void stk_sub(Stack *stack) {
-    bin_op(_sub, stack);
-}
+void stk_sub(Stack *stack);
 
 // effect: multiplies the top two values on top of the stack and pushes the result.
-void stk_mult(Stack *stack) {
-    bin_op(_mult, stack);
-}
+void stk_mult(Stack *stack);
 
 // effect: divides the value below the top from the top value, and pushes the result.
-void stk_div(Stack *stack) {
-    bin_op(_div, stack);
-}
+void stk_div(Stack *stack);

@@ -25,6 +25,7 @@ void print_token_type(TokenType type) {
         case OPEN_PAREN: printf("("); break;
         case CLOSE_PAREN: printf(")"); break;
         case DONE: printf("done"); break;
+        case WHITESPACE: printf("whitespace"); break;
     }
 }
 
@@ -51,6 +52,11 @@ Token close_paren() {
 // return: a token representing the end of input.
 Token done() {
     return (Token) { .type=DONE };
+}
+
+// return: a token representing whitespace, i.e. ' ' or '\t'
+Token whitespace() {
+    return (Token) { .type=WHITESPACE };
 }
 
 void print_token(Token t) {

@@ -64,6 +64,16 @@ bool test_lex_consume() {
     return r;
 }
 
+// Tests any spaces between tokens is ignored.
+bool test_ignores_spaces() {
+    return test_lex_op("    +", PLUS);
+}
+
+// Tests any tabs between tokens is ignored.
+bool test_ignores_tabs() {
+    return test_lex_op("\t\t+", PLUS);
+}
+
 // Runs all bytecode tests.
 void test_lexer(Ctx ctx) {
     Ctx lexer_ctx = nested_ctx("lexer", ctx);
@@ -75,4 +85,6 @@ void test_lexer(Ctx ctx) {
     test(test_lex_open_paren(), "open paren", lexer_ctx);
     test(test_lex_close_paren(), "close paren", lexer_ctx);
     test(test_lex_consume(), "consume", lexer_ctx);
+    test(test_ignores_spaces(), "ignores spaces", lexer_ctx);
+    test(test_ignores_tabs(), "ignores tabs", lexer_ctx);
 }

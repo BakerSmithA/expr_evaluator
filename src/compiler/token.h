@@ -13,7 +13,8 @@ typedef enum {
     BIN_OP,      // Has an associated operation.
     OPEN_PAREN,  // Has no associated data.
     CLOSE_PAREN, // Has no associated data.
-    DONE         // Has no associated data.
+    DONE,        // Has no associated data.
+    WHITESPACE   // Has no associated data.
 } TokenType;
 
 void print_token_type(TokenType type);
@@ -41,5 +42,8 @@ Token close_paren();
 
 // return: a token representing the end of input.
 Token done();
+
+// return: a token representing whitespace, i.e. ' ' or '\t'
+Token whitespace();
 
 void print_token(Token t);

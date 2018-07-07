@@ -28,38 +28,45 @@ static void back_char(Tokens *input) {
 
 // effect: moves the input stream onto the next token.
 void consume(Tokens *input) {
-    char c = next_char(input);
+    input->curr = whitespace();
 
-    if (c == '+') {
-        input->curr = bin_op(PLUS);
-    }
-    else if (c == '-') {
-        input->curr = bin_op(SUB);
-    }
-    else if (c == '*') {
-        input->curr = bin_op(MULT);
-    }
-    else if (c == '/') {
-        input->curr = bin_op(DIV);
-    }
-    else if (c == '(') {
-        input->curr = open_paren();
-    }
-    else if (c == ')') {
-        input->curr = close_paren();
-    }
-    else if (isdigit(c)) {
-        int n = c - '0';
-        c = next_char(input);
-        while (isdigit(c)) {
-            n = (n * 10) + (c - '0');
-            c = next_char(input);
+    while (input->curr.type == WHITESPACE) {
+        char c = next_char(input);
+
+        if (c == ' ' || c == '\t') {
+            input->curr = whitespace();
         }
-        back_char(input);
-        input->curr = integer(n);
-    }
-    else if (c == '\0') {
-        input->curr = done();
+        else if (c == '+') {
+            input->curr = bin_op(PLUS);
+        }
+        else if (c == '-') {
+            input->curr = bin_op(SUB);
+        }
+        else if (c == '*') {
+            input->curr = bin_op(MULT);
+        }
+        else if (c == '/') {
+            input->curr = bin_op(DIV);
+        }
+        else if (c == '(') {
+            input->curr = open_paren();
+        }
+        else if (c == ')') {
+            input->curr = close_paren();
+        }
+        else if (isdigit(c)) {
+            int n = c - '0';
+            c = next_char(input);
+            while (isdigit(c)) {
+                n = (n * 10) + (c - '0');
+                c = next_char(input);
+            }
+            back_char(input);
+            input->curr = integer(n);
+        }
+        else if (c == '\0') {
+            input->curr = done();
+        }
     }
 }
 

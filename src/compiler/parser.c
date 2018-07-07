@@ -124,5 +124,12 @@ static void expr(Bytecode *instrs, Tokens *input) {
 // effect: parses the input and produces bytecode to calculate the result.
 void parse(Bytecode *instrs, Tokens *input) {
     expr(instrs, input);
-    append(HALT_CODE, instrs);
+
+    Token t = lookahead(input);
+    if (t.type == DONE) {
+        append(HALT_CODE, instrs);
+    }
+    else {
+        err_expected(HALT_CODE, t);
+    }
 }

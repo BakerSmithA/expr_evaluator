@@ -38,10 +38,7 @@ void print_bytecode(Bytecode *instrs) {
 void write_bytecode(Bytecode *instrs, FILE *fp) {
     Instr *i;
     foreach_instr(i, instrs) {
-        print_instr(*i);
-        printf("\n");
         int resp = fputc(i->code, fp);
-
         if (resp != i->code) {
             printf("Error occured while outputting file");
         }

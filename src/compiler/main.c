@@ -24,10 +24,11 @@ int main(int argc, char *argv[argc]) {
     Bytecode *output = empty();
     Tokens *ts = from_string(input_tokens);
 
-    printf("\n");
     parse(output, ts);
     write_output(output_file, output);
 
     free_bytecode(output);
     free_tokens(ts);
+
+    printf("Done\n");
 }

@@ -1,5 +1,5 @@
 # Maths Expression Evaluator
-Evaluates mathematical expressions by compiling to byte code for a stack machine.
+Evaluates mathematical expressions by compiling to bytecode for a stack machine.
 
 # Installation
 Clone the repo, e.g. using git:
